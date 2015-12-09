@@ -1,0 +1,10 @@
+{
+    "name": "glasteel/authuserfromsso",
+    "authors": [
+        {
+            "name": "Paul Glass-Steel",
+            "email": "glasteel@email.unc.edu"
+        }
+    ],
+    "require": {}
+}
