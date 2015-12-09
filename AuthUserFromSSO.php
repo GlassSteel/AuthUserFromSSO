@@ -23,11 +23,11 @@ class AuthUserFromSSO
         switch ($_ENV['MODE']) { //do we need this switch?
             case 'local':
                 //TODO grab PID from $_ENV
-                $user = new stdclass;
+                $user = new \stdclass;
                 $user->name = 'Paul';
                 $this->user = $user;
                 $this->authorized = true;
-                return 
+                return; 
             break;
 
             case 'development':
@@ -78,14 +78,14 @@ class AuthUserFromSSO
         // }
         // $this->auth = false;
         // return false;
-    }//__construct
+    //}
 
     public function __get($key){
         if( $this->authorized !== true ){
             return false;
         }
         if( is_object($this->user) && property_exists($this->user, $key) ){
-            return $this->user->key;
+            return $this->user->$key;
         }
     }
 
