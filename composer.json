@@ -6,5 +6,8 @@
             "email": "glasteel@email.unc.edu"
         }
     ],
-    "require": {}
+    "autoload": {
+        "classmap": ["AuthUserFromSSO.php"]
+    },
+	"require": {}
 }

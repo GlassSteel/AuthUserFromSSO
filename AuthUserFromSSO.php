@@ -3,14 +3,50 @@ namespace glasteel;
 
 class AuthUserFromSSO
 {
-    protected $auth = null;
+    protected $authorized = null;
+    protected $user;
+    protected $settings;
 
-    public function __construct()
-    {
-        //global $app;
-        if ($this->auth !== null){
-            return ($this->auth === false) ? false : true;
+    public function __construct($settings = []){
+        //are these settings needed?
+        if( is_array($settings) ){
+            $this->settings = $settings;
         }
+    }
+
+    public function setUser(){
+        
+        if ( $this->authorized !== null ){
+            return $this->authorized;
+        }
+
+        switch ($_ENV['MODE']) { //do we need this switch?
+            case 'local':
+                //TODO grab PID from $_ENV
+                $user = new stdclass;
+                $user->name = 'Paul';
+                $this->user = $user;
+                $this->authorized = true;
+                return 
+            break;
+
+            case 'development':
+                //TODO grab PID from $_SERVER
+                # code...
+            break;
+
+            case 'production':
+                //TODO grab PID from $_SERVER
+                # code...
+            break;
+            
+            default:
+                die();//dotenv should catch this first
+        }
+    }
+
+        //global $app;
+        
         // switch ($app->settings['SLIM_MODE']){
         //     case 'local':
         //         $pid = 714623825; //TODO mechanism to set spoof pid
@@ -27,10 +63,10 @@ class AuthUserFromSSO
         //         die();//TODO improve error handling
         // }
 
-        $user = new stdclass;
-        $user->name = 'Paul';
-        $this->auth = $user;
-        return true;
+        // $user = new stdclass;
+        // $user->name = 'Paul';
+        // $this->auth = $user;
+        // return true;
 
         // if ( $user && $user->id ){
         //     try {
@@ -44,9 +80,13 @@ class AuthUserFromSSO
         // return false;
     }//__construct
 
-    public function getAuthUser()
-    {
-        return $this->auth;
-    }//getAuthUser()
+    public function __get($key){
+        if( $this->authorized !== true ){
+            return false;
+        }
+        if( is_object($this->user) && property_exists($this->user, $key) ){
+            return $this->user->key;
+        }
+    }
 
 }//class AuthUserFromSSO
