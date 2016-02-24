@@ -5,7 +5,7 @@ class AuthUserFromSSO
 {
     protected $auth_user = null;
 
-    public function user($user_obj=null){
+    public function userGS($user_obj=null){
         //getter
         if ( $user_obj === null ){
             return $this->auth_user;
